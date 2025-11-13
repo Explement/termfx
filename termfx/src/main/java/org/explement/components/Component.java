@@ -1,4 +1,4 @@
-package org.explement;
+package org.explement.components;
 
 import org.explement.renderer.ScreenBuffer;
 

@@ -1,4 +1,4 @@
-package org.explement;
+package org.explement.renderer;
 
 public class ScreenBuffer {
     private Cell[][] cells;

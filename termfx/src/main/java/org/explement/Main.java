@@ -1,5 +1,6 @@
 package org.explement;
 
+import org.explement.components.Label;
 import org.explement.renderer.Cell;
 import org.explement.renderer.Renderer;
 import org.explement.renderer.ScreenBuffer;
@@ -21,10 +22,10 @@ public class Main {
 
 
         ScreenBuffer screenBuffer = new ScreenBuffer(40, 10);
-        Renderer renderer = new Renderer(screenBuffer);
+        Renderer renderer = new Renderer();
 
-        Label label = new Label("Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello", 0, 0);
-        label.renderToBuffer(screenBuffer);
+        Label label = new Label("Hello World!", 0, 0);
+        label.renderToBuffer(renderer.getScreenBuffer());
 
         renderer.render();
     }
