@@ -1,5 +1,9 @@
 package org.explement;
 
+import org.explement.renderer.Cell;
+import org.explement.renderer.Renderer;
+import org.explement.renderer.ScreenBuffer;
+
 public class Main {
     public static void main(String[] args) {
         /* 
@@ -19,20 +23,8 @@ public class Main {
         ScreenBuffer screenBuffer = new ScreenBuffer(40, 10);
         Renderer renderer = new Renderer(screenBuffer);
 
-        Cell cell = new Cell('H');
-        Cell cell1 = new Cell('E');
-        Cell cell2 = new Cell('L');
-        Cell cell3 = new Cell('L');
-        Cell cell4 = new Cell('O');
-        
-
-        int x = 0;
-        int y = 0;
-        for (Cell c : new Cell[] {cell, cell1, cell2, cell3, cell4}) {
-            screenBuffer.setCell(c, x, y);
-            x++;
-            y++;
-        }
+        Label label = new Label("Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello, Hello", 0, 0);
+        label.renderToBuffer(screenBuffer);
 
         renderer.render();
     }
