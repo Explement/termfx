@@ -22,9 +22,9 @@ public class Main {
 
 
         ScreenBuffer screenBuffer = new ScreenBuffer(40, 10);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new Renderer(screenBuffer);
 
-        Label label = new Label("Hello World!", 0, 0);
+        Label label = new Label("Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!", 0, 0);
         label.renderToBuffer(renderer.getScreenBuffer());
 
         renderer.render();

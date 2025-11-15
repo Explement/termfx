@@ -25,63 +25,51 @@ public class Label implements Component {
     @Override
     public void renderToBuffer(ScreenBuffer screenBuffer) {
         if (hasBorder) renderBorder(screenBuffer);
-        //renderText(screenBuffer);
+        renderText(screenBuffer);
     }
 
     private void renderBorder(ScreenBuffer screenBuffer) {
-        int maxWidth = (screenBuffer.getX() - x) - 1;
-
-        int drawX = x;
-        int drawY = y;
+        int innerWidth = screenBuffer.getX() - x - 2; // Exclude borders
 
         // ! Replace printing via Terminal Utils TODO
-        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_TOP_LEFT), drawX, drawY);
-        for (int i = 0; i < maxWidth; i++) {
-            drawX++;
-            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_HORIZONTAL), drawX, drawY);
+        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_TOP_LEFT), x, y);
+        for (int i = 1; i <= innerWidth; i++) {
+            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_HORIZONTAL), x + i, y);
         }
+        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_TOP_RIGHT), x + innerWidth + 1, y);
 
-        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_TOP_RIGHT), drawX, drawY);
         
-        drawX = x;
-        drawY = y;
 
-        int lines = Math.ceilDiv(text.length(), maxWidth);
+        int lines = Math.ceilDiv(text.length(), innerWidth);
 
-        for (int i = 0; i < lines; i++) {
-            drawY++;
-            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_VERTICAL), drawX, drawY);
+        for (int i = 1; i <= lines; i++) {
+            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_VERTICAL), x, y + i);
+            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_VERTICAL), x + innerWidth + 1, y + i);
         }
 
-        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_BOTTOM_LEFT), drawX, drawY);
-        for (int i = 0; i < maxWidth; i++) {
-            drawX++;
-            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_HORIZONTAL), drawX, drawY);
-        }
-        drawX = x + maxWidth;
-        drawY = y;
 
-        for (int i = 0; i < lines; i++) {
-            drawY++;
-            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_VERTICAL), drawX, drawY);
+        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_BOTTOM_LEFT), x, y + lines + 1);
+        for (int i = 1; i <= innerWidth; i++) {
+            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_HORIZONTAL), x + i, y + lines + 1);
         }
-        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_BOTTOM_RIGHT), drawX, drawY);
+        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_BOTTOM_RIGHT), x + innerWidth + 1, y + lines + 1);
 
     }
 
     private void renderText(ScreenBuffer screenBuffer) {
-        int drawX = x;
-        int drawY = y;
+        int drawX = x + 1; // Start inside left border
+        int drawY = y + 1; // Start inside top border
+        int innerWidth = screenBuffer.getX() - x - 2;
 
         for (char c : text.toCharArray()) {
-            if (drawX >= screenBuffer.getX()) {
-                drawX = x;
+            if (drawX > x + innerWidth) {
+                drawX = x + 1;
                 drawY++;
             }
-            if (drawY >= screenBuffer.getY()) return;
+            
+            if (drawY >= screenBuffer.getY() - 1) return;
 
             screenBuffer.setCell(new Cell(c), drawX, drawY);
-
             drawX++;
         }
     }
