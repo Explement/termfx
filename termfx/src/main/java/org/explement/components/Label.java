@@ -1,5 +1,6 @@
 package org.explement.components;
 
+import org.explement.Vector2;
 import org.explement.renderer.Cell;
 import org.explement.renderer.ScreenBuffer;
 import org.explement.utils.UnicodeUtils;
@@ -8,27 +9,28 @@ public class Label implements Component {
     private String text;
     private boolean hasBorder = true;
     // * Positions
-    private int x;
-    private int y;
+    private Vector2 position;
 
-    public Label(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Label(Vector2 position) {
+        this.position = position;
     }
 
-    public Label(String text, int x, int y) {
+    public Label(String text, Vector2 position) {
         this.text = text;
-        this.x = x;
-        this.y = y;
+        this.position = position;
     }
 
     @Override
     public void renderToBuffer(ScreenBuffer screenBuffer) {
+        if (position == null) throw new NullPointerException("Label position is null ");
         if (hasBorder) renderBorder(screenBuffer);
         renderText(screenBuffer);
     }
 
     private void renderBorder(ScreenBuffer screenBuffer) {
+        int x = position.getX();
+        int y = position.getY();
+
         int innerWidth = screenBuffer.getX() - x - 2; // Exclude borders
 
         // ! Replace printing via Terminal Utils TODO
@@ -57,8 +59,12 @@ public class Label implements Component {
     }
 
     private void renderText(ScreenBuffer screenBuffer) {
+        int x = position.getX();
+        int y = position.getY();
+
         int drawX = x + 1; // Start inside left border
         int drawY = y + 1; // Start inside top border
+
         int innerWidth = screenBuffer.getX() - x - 2;
 
         for (char c : text.toCharArray()) {

@@ -20,11 +20,10 @@ public class Main {
         */
 
 
-
-        ScreenBuffer screenBuffer = new ScreenBuffer(40, 10);
+        ScreenBuffer screenBuffer = new ScreenBuffer(new Vector2(80, 10));
         Renderer renderer = new Renderer(screenBuffer);
 
-        Label label = new Label("Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!", 0, 0);
+        Label label = new Label("Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!", new Vector2(2, 2));
         label.renderToBuffer(renderer.getScreenBuffer());
 
         renderer.render();
