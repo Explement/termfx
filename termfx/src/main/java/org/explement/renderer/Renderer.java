@@ -29,6 +29,7 @@ public class Renderer {
         Set<Vector2> dirtyCells = screenBuffer.getDirtyCells();
         if (dirtyCells.isEmpty()) return;
         
+        CursorUtils.hide(); // TODO: Temporary    
         for (Vector2 position : new HashSet<>(dirtyCells)) {
             Cell current = screenBuffer.getCell(position);
             Cell previous = previousScreenBuffer.getCell(position);
@@ -38,6 +39,7 @@ public class Renderer {
                 previousScreenBuffer.setCell(current, position.getX(), position.getY());
             }
         }
+        CursorUtils.show(); // TODO: Temporary    
         
         screenBuffer.clearDirty();
         CursorUtils.moveTo(new Vector2(0, screenBuffer.getY() + 1));
@@ -45,5 +47,20 @@ public class Renderer {
 
     public ScreenBuffer getScreenBuffer() {
         return screenBuffer;
+    }
+
+    public void mainLoop() {
+        Thread thread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(33);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                render();
+            }
+        });
+        thread.setDaemon(false);
+        thread.start();
     }
 }

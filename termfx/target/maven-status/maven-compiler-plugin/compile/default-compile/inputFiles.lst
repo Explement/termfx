@@ -1,6 +1,14 @@
 C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\components\Component.java
+C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\components\ComponentManager.java
+C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\components\FocusManager.java
 C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\components\Label.java
+C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\input\InputManager.java
+C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\input\Key.java
 C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\Main.java
 C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\renderer\Cell.java
 C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\renderer\Renderer.java
 C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\renderer\ScreenBuffer.java
+C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\utils\CursorUtils.java
+C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\utils\TerminalUtils.java
+C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\utils\UnicodeUtils.java
+C:\Users\ranbe\Projects\termfx\termfx\src\main\java\org\explement\Vector2.java

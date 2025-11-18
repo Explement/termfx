@@ -18,12 +18,12 @@ public class ScreenBuffer {
         clearCells();
     }
     
-    public void setCell(Cell cell, int x, int y) {
+    public synchronized void setCell(Cell cell, int x, int y) {
         cells[y][x] = cell;
         dirtyCells.add(new Vector2(x, y));
     }
 
-    public Cell getCell(int x, int y) {
+    public synchronized Cell getCell(int x, int y) {
         return getCell(new Vector2(x, y));
     }
 
@@ -85,7 +85,7 @@ public class ScreenBuffer {
         dirtyCells.add(position);
     }
 
-    public Set<Vector2> getDirtyCells() {
+    public synchronized Set<Vector2> getDirtyCells() {
         return dirtyCells;
     }
 
@@ -93,7 +93,7 @@ public class ScreenBuffer {
         return dirtyCells.contains(position);
     }
     
-    public void clearDirty() {
+    public synchronized void clearDirty() {
         dirtyCells.clear();
     }
 }
