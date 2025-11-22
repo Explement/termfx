@@ -6,13 +6,12 @@ import org.explement.renderer.ScreenBuffer;
 import org.explement.utils.UnicodeUtils;
 
 public class Label implements Component {
-    private ScreenBuffer screenBuffer;
-    private String text;
-    private boolean hasBorder = true;
-    private Vector2 position;
-    private Vector2 size = new Vector2(20, 5);
-    private Vector2 oldSize;
-
+    protected ScreenBuffer screenBuffer;
+    protected String text;
+    protected boolean hasBorder;
+    protected Vector2 position;
+    protected Vector2 size = new Vector2(20, 5);
+    protected Vector2 oldSize;
     
     // TODO: Add sizes
     public Label(Vector2 position, Vector2 size, ScreenBuffer screenBuffer) {
@@ -21,7 +20,6 @@ public class Label implements Component {
         this.size = size;
         this.screenBuffer = screenBuffer;
         registerComponent();
-        renderToBuffer();
     }
 
     public Label(String text, Vector2 position, Vector2 size, ScreenBuffer screenBuffer) {
@@ -31,7 +29,6 @@ public class Label implements Component {
         this.size = size;
         this.screenBuffer = screenBuffer;
         registerComponent();
-        renderToBuffer();
     }
 
     @Override
@@ -47,44 +44,52 @@ public class Label implements Component {
         }
 
 
-        if (hasBorder) renderBorder(screenBuffer);
-        renderText(screenBuffer);
+        if (hasBorder || FocusManager.getFocusedComponent() == this)  renderBorder(screenBuffer);
+        renderText(screenBuffer, text);
 
         // TODO: Add copy method to Vector2
         oldSize = new Vector2(size.getX(), size.getY());
     }
 
     // TODO: Fix label resizing, borders glitch out because of computed size, which leaves previous borders
-    private void renderBorder(ScreenBuffer screenBuffer) {
+    protected void renderBorder(ScreenBuffer screenBuffer) {
+        boolean isFocused = FocusManager.getFocusedComponent() == this;
+        char BORDER_TOP_RIGHT = (isFocused) ? UnicodeUtils.BORDER_DOUBLE_TOP_RIGHT : UnicodeUtils.BORDER_TOP_RIGHT;
+        char BORDER_TOP_LEFT = (isFocused) ? UnicodeUtils.BORDER_DOUBLE_TOP_LEFT : UnicodeUtils.BORDER_TOP_LEFT;
+        char BORDER_BOTTOM_RIGHT = (isFocused) ? UnicodeUtils.BORDER_DOUBLE_BOTTOM_RIGHT : UnicodeUtils.BORDER_BOTTOM_RIGHT;
+        char BORDER_BOTTOM_LEFT = (isFocused) ? UnicodeUtils.BORDER_DOUBLE_BOTTOM_LEFT : UnicodeUtils.BORDER_BOTTOM_LEFT;
+        char BORDER_HORIZONTAL = (isFocused) ? UnicodeUtils.BORDER_DOUBLE_HORIZONTAL : UnicodeUtils.BORDER_HORIZONTAL;
+        char BORDER_VERTICAL = (isFocused) ? UnicodeUtils.BORDER_DOUBLE_VERTICAL : UnicodeUtils.BORDER_VERTICAL;
+        
         int x = position.getX();
         int y = position.getY();
 
         int innerWidth = size.getX();
 
         // ! Replace printing via Terminal Utils TODO
-        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_TOP_LEFT), x, y);
+        screenBuffer.setCell(new Cell(BORDER_TOP_LEFT), x, y);
         for (int i = 1; i <= innerWidth; i++) {
-            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_HORIZONTAL), x + i, y);
+            screenBuffer.setCell(new Cell(BORDER_HORIZONTAL), x + i, y);
         }
-        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_TOP_RIGHT), x + innerWidth + 1, y);
+        screenBuffer.setCell(new Cell(BORDER_TOP_RIGHT), x + innerWidth + 1, y);
 
         int lines = size.getY();
 
         for (int i = 1; i <= lines; i++) {
-            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_VERTICAL), x, y + i);
-            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_VERTICAL), x + innerWidth + 1, y + i);
+            screenBuffer.setCell(new Cell(BORDER_VERTICAL), x, y + i);
+            screenBuffer.setCell(new Cell(BORDER_VERTICAL), x + innerWidth + 1, y + i);
         }
 
 
-        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_BOTTOM_LEFT), x, y + lines + 1);
+        screenBuffer.setCell(new Cell(BORDER_BOTTOM_LEFT), x, y + lines + 1);
         for (int i = 1; i <= innerWidth; i++) {
-            screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_HORIZONTAL), x + i, y + lines + 1);
+            screenBuffer.setCell(new Cell(BORDER_HORIZONTAL), x + i, y + lines + 1);
         }
-        screenBuffer.setCell(new Cell(UnicodeUtils.BORDER_BOTTOM_RIGHT), x + innerWidth + 1, y + lines + 1);
+        screenBuffer.setCell(new Cell(BORDER_BOTTOM_RIGHT), x + innerWidth + 1, y + lines + 1);
 
     }
 
-    private void renderText(ScreenBuffer screenBuffer) {
+    protected void renderText(ScreenBuffer screenBuffer, String text) {
         int x = position.getX();
         int y = position.getY();
 
@@ -134,9 +139,5 @@ public class Label implements Component {
         renderToBuffer();
     }
 
-    @Override
-    public void onAction() {
-        setText(text + "*");
-    }
 
 }

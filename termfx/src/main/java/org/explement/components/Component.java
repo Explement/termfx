@@ -1,20 +1,15 @@
 package org.explement.components;
 
-import org.explement.renderer.ScreenBuffer;
+import org.explement.input.Key;
 
 public interface Component {
     public default void registerComponent() {
         ComponentManager.addComponent(this);
     }
     public void renderToBuffer();
-    public void onAction();
-    /* 
-     * 
-     * 
-     * TO DO TOMMOROW
-     * 
-     * START WORKING ON INPUT HANDLING
-     * ADD KEY PRESS EVENTS 
-     * ADD SEPERATE INPUT THREAD
-     */
+    public default void onAction() {};
+    public default void onKeyPress(Key key) {};
+
+    
+
 }

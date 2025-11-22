@@ -8,6 +8,7 @@ public class FocusManager {
     private static Component focusedComponent;
 
     public static void initialize() {
+        
         List<Component> components = ComponentManager.getComponents();
         if (components != null && !components.isEmpty()) {
             focusedComponent = components.get(0);
@@ -26,10 +27,15 @@ public class FocusManager {
         if (components == null || components.isEmpty()) {
             throw new NullPointerException("ComponentManager has no components or is null");
         }
-
+        Component previousFocusedComponent = focusedComponent;
         int index = components.indexOf(focusedComponent);
         index = (index + 1) % components.size();
         focusedComponent = components.get(index);
+        focusedComponent.renderToBuffer();
+        
+        if (previousFocusedComponent != null) {
+            previousFocusedComponent.renderToBuffer();
+        }
 
         return focusedComponent;
     }

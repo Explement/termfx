@@ -24,16 +24,28 @@ public class ComponentManager {
 
     public static void addComponent(Component component) {
         components.add(component);
+        if (component instanceof PasswordField) {
+            PasswordField passwordField = (PasswordField) component;
+            passwordField.setHidden(true);
+        }
+        component.renderToBuffer();
         FocusManager.initialize(); // TODO: Temporary, currently resets every time a component is added
     }
 
     public static void handleInput(Key key) {
+        Component focusedComponent = FocusManager.getFocusedComponent();
+        if (focusedComponent instanceof TextField) {
+            focusedComponent.onKeyPress(key);
+            if (((TextField) focusedComponent).getActive()) {
+                return;
+            }
+        }
+
         switch (key) {
             case TAB:
                 FocusManager.next();
                 break;
             case ENTER:
-                Component focusedComponent = FocusManager.getFocusedComponent();
                 if (focusedComponent != null) {
                     focusedComponent.onAction();
                 }
